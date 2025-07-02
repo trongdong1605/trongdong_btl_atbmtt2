@@ -1,4 +1,4 @@
--Giới Thiệu
+- Giới Thiệu
 
 Dự án này là hệ thống truyền tin nhắn và tệp tin bảo mật sử dụng WebSocket và TCP, được thiết kế để đảm bảo an toàn dữ liệu từ đầu đến cuối. Hệ thống tích hợp các thuật toán mã hóa mạnh như DES3 và RSA để bảo vệ thông tin trong quá trình truyền tải. Với khả năng hoạt động thời gian thực, hệ thống cung cấp trải nghiệm liền mạch cho người dùng, đồng thời duy trì tính bảo mật cao.
 

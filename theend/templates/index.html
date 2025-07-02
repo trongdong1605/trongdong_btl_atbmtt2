@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Transfer System</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; }
+        .servers { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .server-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; width: 250px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .server-card h2 { margin-top: 0; }
+        .status { padding: 8px; border-radius: 4px; }
+        .running { background: #d4edda; color: #155724; }
+        .stopped { background: #f8d7da; color: #721c24; }
+        a { display: inline-block; margin-top: 10px; padding: 8px 16px; background: #007bff; color: white; text-decoration: none; border-radius: 4px; }
+        a:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>File Transfer System</h1>
+    
+    <div class="servers">
+        <div class="server-card">
+            <h2>Sender</h2>
+            <p>Port: 8080</p>
+            <div id="sender-status" class="status">Checking status...</div>
+            <a href="http://localhost:8080" target="_blank">Go to Sender</a>
+        </div>
+        
+        <div class="server-card">
+            <h2>Server 1</h2>
+            <p>Port: 8000</p>
+            <div id="server1-status" class="status">Checking status...</div>
+            <a href="http://localhost:8000/dashboard" target="_blank">Go to Dashboard</a>
+        </div>
+        
+        <div class="server-card">
+            <h2>Server 2</h2>
+            <p>Port: 8001</p>
+            <div id="server2-status" class="status">Checking status...</div>
+            <a href="http://localhost:8001/dashboard" target="_blank">Go to Dashboard</a>
+        </div>
+        
+        <div class="server-card">
+            <h2>Receiver</h2>
+            <p>Port: 8002</p>
+            <div id="receiver-status" class="status">Checking status...</div>
+            <a href="http://localhost:8002/dashboard" target="_blank">Go to Receiver</a>
+        </div>
+    </div>
+
+    <script>
+        function checkServerStatus() {
+            // Sender
+            fetch('http://localhost:8080/status')
+                .then(response => {
+                    const statusDiv = document.getElementById('sender-status');
+                    if (response.ok) {
+                        statusDiv.textContent = 'Running';
+                        statusDiv.className = 'status running';
+                    } else {
+                        statusDiv.textContent = 'Stopped';
+                        statusDiv.className = 'status stopped';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('sender-status').textContent = 'Stopped';
+                    document.getElementById('sender-status').className = 'status stopped';
+                });
+            
+            // Server 1
+            fetch('http://localhost:8000')
+                .then(response => {
+                    const statusDiv = document.getElementById('server1-status');
+                    if (response.ok) {
+                        statusDiv.textContent = 'Running';
+                        statusDiv.className = 'status running';
+                    } else {
+                        statusDiv.textContent = 'Stopped';
+                        statusDiv.className = 'status stopped';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('server1-status').textContent = 'Stopped';
+                    document.getElementById('server1-status').className = 'status stopped';
+                });
+            
+            // Server 2
+            fetch('http://localhost:8001')
+                .then(response => {
+                    const statusDiv = document.getElementById('server2-status');
+                    if (response.ok) {
+                        statusDiv.textContent = 'Running';
+                        statusDiv.className = 'status running';
+                    } else {
+                        statusDiv.textContent = 'Stopped';
+                        statusDiv.className = 'status stopped';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('server2-status').textContent = 'Stopped';
+                    document.getElementById('server2-status').className = 'status stopped';
+                });
+            
+            // Receiver
+            fetch('http://localhost:8002')
+                .then(response => {
+                    const statusDiv = document.getElementById('receiver-status');
+                    if (response.ok) {
+                        statusDiv.textContent = 'Running';
+                        statusDiv.className = 'status running';
+                    } else {
+                        statusDiv.textContent = 'Stopped';
+                        statusDiv.className = 'status stopped';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('receiver-status').textContent = 'Stopped';
+                    document.getElementById('receiver-status').className = 'status stopped';
+                });
+        }
+        
+        checkServerStatus();
+        setInterval(checkServerStatus, 5000);
+    </script>
+</body>
+</html>

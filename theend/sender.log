@@ -1,0 +1,39 @@
+2025-07-02 12:25:12,230 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+2025-07-02 12:25:12,230 - [33mPress CTRL+C to quit[0m
+2025-07-02 12:25:12,240 -  * Restarting with stat
+2025-07-02 12:25:12,520 -  * Debugger is active!
+2025-07-02 12:25:12,524 -  * Debugger PIN: 153-784-261
+2025-07-02 12:27:53,298 - 127.0.0.1 - - [02/Jul/2025 12:27:53] "GET / HTTP/1.1" 200 -
+2025-07-02 12:27:53,322 - 127.0.0.1 - - [02/Jul/2025 12:27:53] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:27:53,520 - 127.0.0.1 - - [02/Jul/2025 12:27:53] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-02 12:31:21,011 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+2025-07-02 12:31:21,012 - [33mPress CTRL+C to quit[0m
+2025-07-02 12:31:21,019 -  * Restarting with stat
+2025-07-02 12:31:21,303 -  * Debugger is active!
+2025-07-02 12:31:21,308 -  * Debugger PIN: 153-784-261
+2025-07-02 12:31:40,216 - 127.0.0.1 - - [02/Jul/2025 12:31:40] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:31:44,912 - 127.0.0.1 - - [02/Jul/2025 12:31:44] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:31:53,375 - Handshake - Success
+2025-07-02 12:31:53,721 - 127.0.0.1 - - [02/Jul/2025 12:31:53] "POST /api/upload HTTP/1.1" 200 -
+2025-07-02 12:34:22,897 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8080
+2025-07-02 12:34:22,897 - [33mPress CTRL+C to quit[0m
+2025-07-02 12:34:22,905 -  * Restarting with stat
+2025-07-02 12:34:23,184 -  * Debugger is active!
+2025-07-02 12:34:23,190 -  * Debugger PIN: 153-784-261
+2025-07-02 12:34:30,991 - 127.0.0.1 - - [02/Jul/2025 12:34:30] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:33,571 - 127.0.0.1 - - [02/Jul/2025 12:34:33] "GET / HTTP/1.1" 200 -
+2025-07-02 12:34:33,826 - 127.0.0.1 - - [02/Jul/2025 12:34:33] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:33,908 - 127.0.0.1 - - [02/Jul/2025 12:34:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-02 12:34:35,911 - 127.0.0.1 - - [02/Jul/2025 12:34:35] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:40,986 - 127.0.0.1 - - [02/Jul/2025 12:34:40] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:46,304 - 127.0.0.1 - - [02/Jul/2025 12:34:46] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:50,988 - 127.0.0.1 - - [02/Jul/2025 12:34:50] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:56,313 - 127.0.0.1 - - [02/Jul/2025 12:34:56] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:34:56,582 - Handshake - Success
+2025-07-02 12:34:56,908 - 127.0.0.1 - - [02/Jul/2025 12:34:56] "POST /api/upload HTTP/1.1" 200 -
+2025-07-02 12:35:00,992 - 127.0.0.1 - - [02/Jul/2025 12:35:00] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:35:06,307 - 127.0.0.1 - - [02/Jul/2025 12:35:06] "GET /status HTTP/1.1" 200 -
+2025-07-02 12:35:10,988 - 127.0.0.1 - - [02/Jul/2025 12:35:10] "GET /status HTTP/1.1" 200 -

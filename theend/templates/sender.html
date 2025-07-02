@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Sender</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        form { margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>File Sender</h1>
+    
+    <div id="server-status" class="status info">
+        Checking server status...
+    </div>
+    
+    <form id="upload-form" enctype="multipart/form-data">
+        <h2>Upload File</h2>
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Send File</button>
+    </form>
+    
+    <div id="result" class="status" style="display: none;"></div>
+    
+    <h2>Recent Transfers</h2>
+    <table id="transfers-table">
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Status</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        fetch('/status')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('server-status').textContent = 
+                    `Sender is running on port ${data.web_port}. ${data.description}`;
+            })
+            .catch(error => {
+                document.getElementById('server-status').textContent = 
+                    'Error: Could not connect to sender server';
+                document.getElementById('server-status').className = 'status error';
+            });
+
+        document.getElementById('upload-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('file');
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'none';
+            
+            if (!fileInput.files.length) {
+                alert('Please select a file first');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.style.display = 'block';
+                if (data.success) {
+                    resultDiv.textContent = `Success: ${data.message}`;
+                    resultDiv.className = 'status success';
+                    addTransferToTable(data.filename, 'Success', new Date().toLocaleString());
+                } else {
+                    resultDiv.textContent = `Error: ${data.message}`;
+                    resultDiv.className = 'status error';
+                    addTransferToTable(data.filename || fileInput.files[0].name, 'Failed', new Date().toLocaleString());
+                }
+                fileInput.value = '';
+            })
+            .catch(error => {
+                resultDiv.style.display = 'block';
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'status error';
+                addTransferToTable(fileInput.files[0].name, 'Failed', new Date().toLocaleString());
+            });
+        });
+        
+        function addTransferToTable(filename, status, time) {
+            const tableBody = document.querySelector('#transfers-table tbody');
+            const row = document.createElement('tr');
+            
+            const filenameCell = document.createElement('td');
+            filenameCell.textContent = filename;
+            
+            const statusCell = document.createElement('td');
+            statusCell.textContent = status;
+            statusCell.style.color = status === 'Success' ? 'green' : 'red';
+            
+            const timeCell = document.createElement('td');
+            timeCell.textContent = time;
+            
+            row.appendChild(filenameCell);
+            row.appendChild(statusCell);
+            row.appendChild(timeCell);
+            
+            tableBody.insertBefore(row, tableBody.firstChild);
+        }
+    </script>
+</body>
+</html>

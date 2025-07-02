@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server 1 Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .card { background: #f9f9f9; border-radius: 8px; padding: 20px; margin: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { padding: 10px; border-radius: 5px; margin: 5px 0; }
+        .healthy { background: #d4edda; color: #155724; }
+        .metrics { display: flex; gap: 20px; flex-wrap: wrap; }
+        .metric { flex: 1; min-width: 200px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Server 1 Dashboard</h1>
+    
+    <div class="card">
+        <h2>Status Overview</h2>
+        <div id="server-status" class="status healthy">
+            Loading server status...
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <h3>Connections</h3>
+                <p>Active Threads: <span id="active-threads">-</span></p>
+            </div>
+            <div class="metric">
+                <h3>Ports</h3>
+                <p>Socket: <span id="socket-port">-</span></p>
+                <p>Web: <span id="web-port">-</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Recent Activity</h2>
+        <table id="activity-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadServerStatus() {
+            fetch('/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('server-status').textContent = 
+                        `${data.status} - ${data.description}`;
+                    document.getElementById('active-threads').textContent = 
+                        data.active_threads;
+                    document.getElementById('socket-port').textContent = 
+                        data.port;
+                    document.getElementById('web-port').textContent = 
+                        data.web_port;
+                })
+                .catch(error => {
+                    document.getElementById('server-status').textContent = 
+                        'Error: Could not connect to server';
+                    document.getElementById('server-status').className = 'status error';
+                });
+        }
+        
+        function updateActivityLog() {
+            fetch('/')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#activity-table tbody');
+                    tableBody.innerHTML = '';
+                    
+                    // Simulate activity - in a real app you'd have an API endpoint for this
+                    const activities = [
+                        { time: new Date().toLocaleString(), action: "Connection", details: "New client connected" },
+                        { time: new Date(Date.now() - 10000).toLocaleString(), action: "File Transfer", details: "Received file.txt (1024 bytes)" },
+                        { time: new Date(Date.now() - 30000).toLocaleString(), action: "Handshake", details: "Completed with client" }
+                    ];
+                    
+                    activities.forEach(activity => {
+                        const row = document.createElement('tr');
+                        
+                        const timeCell = document.createElement('td');
+                        timeCell.textContent = activity.time;
+                        
+                        const actionCell = document.createElement('td');
+                        actionCell.textContent = activity.action;
+                        
+                        const detailsCell = document.createElement('td');
+                        detailsCell.textContent = activity.details;
+                        
+                        row.appendChild(timeCell);
+                        row.appendChild(actionCell);
+                        row.appendChild(detailsCell);
+                        
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+        
+        loadServerStatus();
+        updateActivityLog();
+        setInterval(loadServerStatus, 5000);
+        setInterval(updateActivityLog, 10000);
+    </script>
+</body>
+</html>

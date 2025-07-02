@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receiver Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .card { background: #f9f9f9; border-radius: 8px; padding: 20px; margin: 10px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { padding: 10px; border-radius: 5px; margin: 5px 0; }
+        .healthy { background: #d4edda; color: #155724; }
+        .metrics { display: flex; gap: 20px; flex-wrap: wrap; }
+        .metric { flex: 1; min-width: 200px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Receiver Dashboard</h1>
+    
+    <div class="card">
+        <h2>Status Overview</h2>
+        <div id="server-status" class="status healthy">
+            Loading server status...
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <h3>Connections</h3>
+                <p>Active Threads: <span id="active-threads">-</span></p>
+            </div>
+            <div class="metric">
+                <h3>Ports</h3>
+                <p>Socket: <span id="socket-port">-</span></p>
+                <p>Web: <span id="web-port">-</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Received Files</h2>
+        <table id="files-table">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadServerStatus() {
+            fetch('/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('server-status').textContent = 
+                        `${data.status} - ${data.description}`;
+                    document.getElementById('active-threads').textContent = 
+                        data.active_threads;
+                    document.getElementById('socket-port').textContent = 
+                        data.port;
+                    document.getElementById('web-port').textContent = 
+                        data.web_port;
+                    
+                    // Update files table
+                    const tableBody = document.querySelector('#files-table tbody');
+                    tableBody.innerHTML = '';
+                    
+                    data.received_files.forEach(file => {
+                        const row = document.createElement('tr');
+                        
+                        const filenameCell = document.createElement('td');
+                        filenameCell.textContent = file;
+                        
+                        const actionsCell = document.createElement('td');
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = `/download/${file}`;
+                        downloadLink.textContent = 'Download';
+                        actionsCell.appendChild(downloadLink);
+                        
+                        row.appendChild(filenameCell);
+                        row.appendChild(actionsCell);
+                        
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('server-status').textContent = 
+                        'Error: Could not connect to server';
+                    document.getElementById('server-status').className = 'status error';
+                });
+        }
+        
+        loadServerStatus();
+        setInterval(loadServerStatus, 5000);
+    </script>
+</body>
+</html>
